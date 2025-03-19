@@ -1,0 +1,29 @@
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\bin\Debug\net9.0\First.exe
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\bin\Debug\net9.0\First.deps.json
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\bin\Debug\net9.0\First.runtimeconfig.json
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\bin\Debug\net9.0\First.dll
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\bin\Debug\net9.0\First.pdb
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\obj\Debug\net9.0\First.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\obj\Debug\net9.0\First.AssemblyInfoInputs.cache
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\obj\Debug\net9.0\First.AssemblyInfo.cs
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\obj\Debug\net9.0\First.csproj.CoreCompileInputs.cache
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\obj\Debug\net9.0\First.dll
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\obj\Debug\net9.0\refint\First.dll
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\obj\Debug\net9.0\First.pdb
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\obj\Debug\net9.0\First.genruntimeconfig.cache
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\First\obj\Debug\net9.0\ref\First.dll
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\bin\Debug\net9.0\First.exe
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\bin\Debug\net9.0\First.deps.json
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\bin\Debug\net9.0\First.runtimeconfig.json
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\bin\Debug\net9.0\First.dll
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\bin\Debug\net9.0\First.pdb
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\obj\Debug\net9.0\First.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\obj\Debug\net9.0\First.AssemblyInfoInputs.cache
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\obj\Debug\net9.0\First.AssemblyInfo.cs
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\obj\Debug\net9.0\First.csproj.CoreCompileInputs.cache
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\obj\Debug\net9.0\First.sourcelink.json
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\obj\Debug\net9.0\First.dll
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\obj\Debug\net9.0\refint\First.dll
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\obj\Debug\net9.0\First.pdb
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\obj\Debug\net9.0\First.genruntimeconfig.cache
+C:\Users\Mile\Documents\repos\programacion-i\ejercicios\clase-01\obj\Debug\net9.0\ref\First.dll
