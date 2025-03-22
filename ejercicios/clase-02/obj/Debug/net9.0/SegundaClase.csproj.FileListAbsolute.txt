@@ -1,0 +1,29 @@
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.AssemblyInfoInputs.cache
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.AssemblyInfo.cs
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.csproj.CoreCompileInputs.cache
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\bin\Debug\net9.0\SegundaClase.exe
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\bin\Debug\net9.0\SegundaClase.deps.json
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\bin\Debug\net9.0\SegundaClase.runtimeconfig.json
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\bin\Debug\net9.0\SegundaClase.dll
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\bin\Debug\net9.0\SegundaClase.pdb
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.dll
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\obj\Debug\net9.0\refint\SegundaClase.dll
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.pdb
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.genruntimeconfig.cache
+C:\Users\Mile\UAP\OneDrive - uap.edu.ar\Ingeniería en Sistemas (2024)\2° año\1° cuatrimestre\Programación I\Ejercicios\SegundaClase\obj\Debug\net9.0\ref\SegundaClase.dll
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\bin\Debug\net9.0\SegundaClase.exe
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\bin\Debug\net9.0\SegundaClase.deps.json
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\bin\Debug\net9.0\SegundaClase.runtimeconfig.json
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\bin\Debug\net9.0\SegundaClase.dll
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\bin\Debug\net9.0\SegundaClase.pdb
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.AssemblyInfoInputs.cache
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.AssemblyInfo.cs
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.csproj.CoreCompileInputs.cache
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.sourcelink.json
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.dll
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\obj\Debug\net9.0\refint\SegundaClase.dll
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.pdb
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\obj\Debug\net9.0\SegundaClase.genruntimeconfig.cache
+C:\Users\Mile\Documents\repos\programacion-i\Ejercicios\SegundaClase\obj\Debug\net9.0\ref\SegundaClase.dll
