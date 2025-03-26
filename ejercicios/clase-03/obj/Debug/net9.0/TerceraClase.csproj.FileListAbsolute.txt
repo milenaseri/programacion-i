@@ -1,0 +1,15 @@
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/obj/Debug/net9.0/TerceraClase.GeneratedMSBuildEditorConfig.editorconfig
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/obj/Debug/net9.0/TerceraClase.AssemblyInfoInputs.cache
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/obj/Debug/net9.0/TerceraClase.AssemblyInfo.cs
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/obj/Debug/net9.0/TerceraClase.csproj.CoreCompileInputs.cache
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/obj/Debug/net9.0/TerceraClase.sourcelink.json
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/bin/Debug/net9.0/TerceraClase
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/bin/Debug/net9.0/TerceraClase.deps.json
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/bin/Debug/net9.0/TerceraClase.runtimeconfig.json
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/bin/Debug/net9.0/TerceraClase.dll
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/bin/Debug/net9.0/TerceraClase.pdb
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/obj/Debug/net9.0/TerceraClase.dll
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/obj/Debug/net9.0/refint/TerceraClase.dll
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/obj/Debug/net9.0/TerceraClase.pdb
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/obj/Debug/net9.0/TerceraClase.genruntimeconfig.cache
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-03/obj/Debug/net9.0/ref/TerceraClase.dll
