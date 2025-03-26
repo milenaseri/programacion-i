@@ -1,5 +1,8 @@
 ﻿namespace TerceraClase;
 
+// TODO: Modularizar aún más las funciones
+// TODO: Implementar sopa de letras con 3 palabras ubicadas en forma aleatoria (posiblemente en un nuevo programa clase-04)
+
 class Program
 {
     static void Main(string[] args)
@@ -40,7 +43,11 @@ class Program
             Console.WriteLine("3. Ejemplo ForEach");
             Console.WriteLine("4. Ejemplo ReadKey");
             Console.WriteLine("5. Ejemplo ReadKeyDos");
-            Console.WriteLine("6. Salir");
+            Console.WriteLine("6. Ejemplo Vector");
+            Console.WriteLine("7. Ejemplo Matriz");
+            Console.WriteLine("8. Ejemplo Random");
+            Console.WriteLine("9. Salir");
+            Console.WriteLine();
             Console.Write("Seleccione una opción: ");
             string opcion = Console.ReadLine();
 
@@ -77,6 +84,24 @@ class Program
                     Menu();
                     break;
                 case "6":
+                    EjemploVector();
+                    Console.Write("Presione una tecla para continuar...");
+                    Console.ReadKey();
+                    Menu();
+                    break;
+                case "7":
+                    EjemploMatriz();
+                    Console.Write("Presione una tecla para continuar...");
+                    Console.ReadKey();
+                    Menu();
+                    break;
+                case "8":
+                    EjemploRandom();
+                    Console.Write("Presione una tecla para continuar...");
+                    Console.ReadKey();
+                    Menu();
+                    break;
+                case "9":
                     Console.WriteLine("Saliendo...");
                     break;
                 default:
@@ -84,11 +109,12 @@ class Program
                     break;
             }
         }
+        // FIXME: No funciona porque se modificó para usar en otros ejemplos
         static int EjemploReadKey()
         {   
             string valor = "0";
             bool fin = false;
-            Console.WriteLine("Presione una tecla...");
+            //Console.WriteLine("Presione una tecla...");
             do {
                 ConsoleKeyInfo k = Console.ReadKey(true);
                 if ((int)k.KeyChar >= 48 && (int)k.KeyChar <= 57)
@@ -99,7 +125,7 @@ class Program
                 else if (k.Key == ConsoleKey.Enter)
                 {
                     fin = true;
-                    Console.WriteLine($"\nPresionó Enter. El valor es de: {valor}");
+                    //Console.WriteLine($"\nPresionó Enter. El valor es de: {valor}");
                 }
                 else
                 {
@@ -108,7 +134,6 @@ class Program
             } while (!fin);
             return int.Parse(valor);
         }
-
         static void EjemploReadKeyDos()
         {
             Console.Clear();
@@ -160,5 +185,105 @@ class Program
                         break;
                 }
             } while (!fin);
+        }
+        static void EjemploVector()
+        {
+            Console.Clear();
+            Console.Write("Ingrese el tamaño del vector: ");
+            int x = int.Parse(Console.ReadLine());
+            int[] v = new int[x];
+            v[0] = 0;
+            int max = int.MinValue; // Valor mínimo posible para un entero
+            int min = int.MaxValue; // Valor máximo posible para un entero
+            for (int i= 0; i < v.Length; i++)
+            {
+                Console.Write($"Ingrese un valor para la posición {i}: ");
+                v[i] = EjemploReadKey();
+                Console.WriteLine();
+                if (v[i] > max)
+                {
+                    max = v[i];
+                }
+                if (v[i] < min)
+                {
+                    min = v[i];
+                }
+                Console.WriteLine($"El valor máximo es: {max}. El valor mínimo es: {min}.");
+            }
+        }
+        static void EjemploMatriz()
+        {
+            Console.Clear();
+
+            // Obtener tamaño de la matriz
+            Console.Write("Ingrese cantidad de filas: ");
+            int filas = int.Parse(Console.ReadLine());
+            Console.Write("Ingrese cantidad de columnas: ");
+            int columnas = int.Parse(Console.ReadLine());
+            int[,] m = new int [filas,columnas];
+
+            // Obtener los valores de la matriz
+            Console.WriteLine();
+            for (int i = 0; i < filas; i++)
+            {
+                for (int j = 0; j < columnas; j++)
+                {
+                    Console.Write($"Ingrese un valor para la posición {i},{j}: ");
+                    m[i,j] = EjemploReadKey();
+                    Console.WriteLine();
+                }
+            }
+
+            // Mostrar la matriz
+            Console.WriteLine();
+            Console.WriteLine("Matriz resultante:\n");
+            for (int i = 0; i < filas; i++)
+            {
+                for (int j = 0; j < columnas; j++)
+                {
+                    Console.Write($"{m[i,j]}\t");
+                }
+                Console.WriteLine();
+            }
+ 
+            // Mostrar la matriz traspuesta
+            Console.WriteLine();
+            Console.WriteLine("Matriz traspuesta:\n");
+            for (int j = 0; j < columnas; j++)
+            {
+                for (int i = 0; i < filas; i++)
+                {
+                    Console.Write($"{m[i,j]}\t");
+                }
+                Console.WriteLine();
+            }
+        }
+        static void EjemploRandom()
+        {
+            Console.Clear();
+            // Generar matriz con valores random
+            Random r = new Random();
+            int filas = r.Next(1,9); // 1-8
+            int columnas = r.Next(1,9);
+            int[,] matriz = new int[filas,columnas];
+            for (int i = 0; i < matriz.GetLength(0); i++)
+            {
+                for (int j = 0; j < matriz.GetLength(1); j++)
+                {
+                    matriz[i,j] = r.Next(1,99);
+                }
+            }
+          
+            // Mostrar matriz
+            Console.WriteLine($"Matriz random de {matriz.GetLength(0)}x{matriz.GetLength(1)}:\n");
+            for (int i = 0; i < matriz.GetLength(0); i++)
+            {
+                for (int j = 0; j < matriz.GetLength(1); j++)
+                {
+                    Console.Write($"{matriz[i,j]}\t");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
         }
 }
