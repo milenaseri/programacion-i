@@ -1,0 +1,15 @@
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/obj/Debug/net9.0/CuartaClase.GeneratedMSBuildEditorConfig.editorconfig
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/obj/Debug/net9.0/CuartaClase.AssemblyInfoInputs.cache
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/obj/Debug/net9.0/CuartaClase.AssemblyInfo.cs
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/obj/Debug/net9.0/CuartaClase.csproj.CoreCompileInputs.cache
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/obj/Debug/net9.0/CuartaClase.sourcelink.json
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/bin/Debug/net9.0/CuartaClase
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/bin/Debug/net9.0/CuartaClase.deps.json
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/bin/Debug/net9.0/CuartaClase.runtimeconfig.json
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/bin/Debug/net9.0/CuartaClase.dll
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/bin/Debug/net9.0/CuartaClase.pdb
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/obj/Debug/net9.0/CuartaClase.dll
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/obj/Debug/net9.0/refint/CuartaClase.dll
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/obj/Debug/net9.0/CuartaClase.pdb
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/obj/Debug/net9.0/CuartaClase.genruntimeconfig.cache
+/Users/milenaseri/projects/programacion-i/ejercicios/clase-04/obj/Debug/net9.0/ref/CuartaClase.dll
