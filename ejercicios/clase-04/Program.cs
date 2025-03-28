@@ -1,6 +1,6 @@
 ﻿namespace CuartaClase;
 
-// TODO: Agregar palabras seleccionadas a la matriz
+// UNDONE: Agregar palabras seleccionadas a la matriz
 // TODO: Agregar función para moverse por la matriz y seleccionar palabras con una tecla
 // TODO: Implementar validación de palabras encontradas
 // TODO: Separar recuadro en otra función y agregarle color
@@ -13,15 +13,23 @@ class Program
         // Seleccionar tamaño de la sopa de letras
         (int filas, int columnas) = SeleccionarTamanoMatriz();
         
+        // La longitud máxima de palabra debe ser igual al tamaño máximo de la matriz
+        int longitudMaxima = Math.Min(filas, columnas);
+        
         // Seleccionar cantidad de palabras en función del tamaño
         int cantidadPalabras = (filas == 9) ? 5 : (filas == 12) ? 8 : 12;
-        string[] misPalabras = ElegirPalabras(cantidadPalabras);
+        
+        // Pasar la longitud máxima como parámetro
+        string[] misPalabras = ElegirPalabras(cantidadPalabras, longitudMaxima);
 
         // Mostrar palabras en una lista
         ListarPalabras(misPalabras);
 
         // Generar matriz del tamaño deseado
-        int[,] miMatriz = GenerarMatriz(filas, columnas);
+        char[,] miMatriz = GenerarMatriz(filas, columnas);
+
+        // Ubicar palabras en la matriz
+        UbicarPalabrasEnMatriz(misPalabras, miMatriz);
 
         // Dibujar matriz en la consola
         DibujarMatriz(miMatriz);
@@ -52,8 +60,9 @@ class Program
             "DATOS",
             "ESTRUCTURAS",
             "CONTROL",
-            "SOFTWARE",
-            "CODIGO",
+            "PROGRAMA",
+            "INSTRUCCION",
+            "PROGRAMADOR",
             "COMPILADOR",
             "INTERPRETE",
             "ENSAMBLADOR",
@@ -64,28 +73,37 @@ class Program
             "PSEUDOCODIGO"
         };
 
-    static string[] ElegirPalabras(int cantidadDeseada)
+    // Elige un subconjunto aleatorio de palabras con un límite de longitud
+    static string[] ElegirPalabras(int cantidadDeseada, int longitudMaxima)
     {
-        // Crear una copia del array original
-        string[] palabrasDisponibles = palabras.ToArray();
-        string[] palabrasElegidas = new string[cantidadDeseada];
-        Random r = new Random();
-
-        for (int i = 0; i < cantidadDeseada; i++)
+        // Filtrar palabras que cumplen con la longitud máxima
+        List<string> palabrasValidas = new List<string>();
+        foreach (string palabra in palabras)
         {
-            // Generar un índice aleatorio entre 0 y la cantidad de palabras disponibles
-            int indiceAleatorio = r.Next(0, palabrasDisponibles.Length - 1 - i);
-            
-            // Guardar la palabra elegida
-            palabrasElegidas[i] = palabrasDisponibles[indiceAleatorio];
-            
-            // Mover la última palabra al lugar de la que acabamos de elegir
-            palabrasDisponibles[indiceAleatorio] = palabrasDisponibles[palabrasDisponibles.Length - 1 - i];
+            if (palabra.Length <= longitudMaxima)
+            {
+                palabrasValidas.Add(palabra);
+            }
         }
-
+        
+        // Si hay menos palabras válidas que las deseadas, usar todas las que hay
+        int cantidadFinal = Math.Min(cantidadDeseada, palabrasValidas.Count);
+        
+        // Elegir palabras aleatoriamente
+        string[] palabrasElegidas = new string[cantidadFinal];
+        Random r = new Random();
+        
+        for (int i = 0; i < cantidadFinal; i++)
+        {
+            int indice = r.Next(0, palabrasValidas.Count);
+            palabrasElegidas[i] = palabrasValidas[indice];
+            palabrasValidas.RemoveAt(indice);
+        }
+        
         return palabrasElegidas;
     }
 
+    // Muestra una lista con las palabras a encontrar
     static void ListarPalabras(string[] palabrasParaMostrar)
     {
         Console.Clear();
@@ -102,6 +120,7 @@ class Program
         Console.WriteLine(); // Línea en blanco
     }
 
+    // Permite seleccionar el tamaño de la matriz a través de un menú con tamaños predefinidos
     static (int filas, int columnas) SeleccionarTamanoMatriz()
     {
         Console.Clear();
@@ -142,54 +161,129 @@ class Program
         }
     }
 
-    static int[,] GenerarMatriz(int filas, int columnas)
+    // Genera una matriz de i filas y n columnas pasadas por parámetro
+    static char[,] GenerarMatriz(int filas, int columnas)
     {
-        int[,] matriz = new int [filas,columnas];
+        char[,] matriz = new char[filas, columnas];
         Random r = new Random();
-
+ 
         for (int i = 0; i < filas; i++)
         {
             for (int j = 0; j < columnas; j++)
             {
-                matriz[i,j] = r.Next(65,91); // ASCII 65-90 (A-Z)
+                matriz[i,j] = '0';
             }
         }
-
+ 
         return matriz;
     }
 
-    static void DibujarMatriz(int[,] matriz)
+    // Selecciona posición inicial de la palabra en la matriz según la dirección
+    static (int fila, int columna) SeleccionarPosicionInicial(int direccion, string palabra, int filas, int columnas)
     {
+        Random r = new Random();
+        int fila = 0;
+        int columna = 0;
+
+        switch (direccion)
+        {
+            case 0: // Horizontal
+            {
+                fila = r.Next(0, filas); // Cualquier fila
+                columna = r.Next(0, columnas - palabra.Length + 1);
+                break;
+            }
+            case 1: // Horizontal invertida
+            {
+                fila = r.Next(0, filas); // Cualquier fila
+                columna = r.Next(palabra.Length - 1, columnas);
+                break;
+            }
+            case 2: // Vertical
+            {
+                fila = r.Next(0, filas - palabra.Length + 1);
+                columna = r.Next(0, columnas); // Cualquier columna
+                break;
+            }
+            case 3: // Vertical invertida
+            {
+                fila = r.Next(palabra.Length - 1, filas);
+                columna = r.Next(0, columnas); // Cualquier columna
+                break;
+            }
+        }
+        
+        return (fila, columna);
+    }
+
+    // Ubica las palabras en la matriz
+    static void UbicarPalabrasEnMatriz(string[] palabras, char[,] matriz)
+    {
+        Random r = new Random();
         int filas = matriz.GetLength(0);
         int columnas = matriz.GetLength(1);
+        int[] direccion = new int[palabras.Length];
+        int[] filaInicial = new int[palabras.Length];
+        int[] columnaInicial = new int[palabras.Length];
 
-        // Línea superior
-        Console.Write("╔");
-        for (int i = 0; i < (columnas * 2) + 1; i++)
+        // Recorrer las palabras 
+        for (int p = 0; p < palabras.Length; p++)
         {
-        Console.Write("═");
-        }
-        Console.WriteLine("╗");
+            // Asignar una dirección aleatoria
+            direccion[p] = r.Next(0, 4);
 
-        // Mostrar matriz
-        for (int i = 0; i < filas; i++)
-        {
-            Console.Write("║ "); // Línea izquierda
-            for (int j = 0; j < columnas; j++)
+            // Buscar una posición inicial aleatoria válida para la dirección elegida
+            (filaInicial[p], columnaInicial[p]) = SeleccionarPosicionInicial(direccion[p], palabras[p], filas, columnas);
+
+            // Verificar si las posiciones iniciales están bien (aunque se superpongan)
+            // Console.WriteLine($"{p+1}. {palabras[p]} {direccion[p]}, ({filaInicial[p]}, {columnaInicial[p]})");
+            
+            // TODO: Función ValidarPosicion para verificar si las posiciones subsiguientes son válidas para evitar superposiciones
+
+            /*
+            for (int i = 0; i < filas; i++)
             {
-                Console.Write($"{(char)matriz[i,j]} ");
+                for (int j = 0; j < columnas; j++)
+                {
+                    Console.Write("");
+                }
             }
-            Console.Write("║"); // Línea derecha
-            Console.WriteLine();
+            */
         }
-
-        // Línea inferior
-        Console.Write("╚");
-        for (int i = 0; i < (columnas * 2) + 1; i++)
-        {
-        Console.Write("═");
-        }
-        Console.WriteLine("╝");
-        Console.WriteLine();
     }
+
+    static void DibujarMatriz(char[,] matriz)
+    {
+         int filas = matriz.GetLength(0);
+         int columnas = matriz.GetLength(1);
+ 
+         // Línea superior
+         Console.Write("╔");
+         for (int i = 0; i < (columnas * 2) + 1; i++)
+         {
+         Console.Write("═");
+         }
+         Console.WriteLine("╗");
+ 
+         // Mostrar matriz
+         for (int i = 0; i < filas; i++)
+         {
+             Console.Write("║ "); // Línea izquierda
+             for (int j = 0; j < columnas; j++)
+             {
+                 Console.Write($"{matriz[i,j]} ");
+             }
+             Console.Write("║"); // Línea derecha
+             Console.WriteLine();
+         }
+ 
+         // Línea inferior
+         Console.Write("╚");
+         for (int i = 0; i < (columnas * 2) + 1; i++)
+         {
+         Console.Write("═");
+         }
+         Console.WriteLine("╝");
+         Console.WriteLine();
+     }
 }
