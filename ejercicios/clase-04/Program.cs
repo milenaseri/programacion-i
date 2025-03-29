@@ -2,30 +2,19 @@
 
 // UNDONE: Agregar función para moverse por la matriz y seleccionar palabras con una tecla
 // TODO: Implementar validación de palabras encontradas
+// FIXME: Limitar número de intentos para ubicar las palabras para evitar posible stack overflow 
+// TODO: Refactorizar los valores hardcodeados (espacio entre letras, teclas, etc.)
 // TODO: Separar recuadro en otra función y agregarle color
-// IDEA: Agregar sistema de puntos
 
 class Program
 {
     static void Main(string[] args)
     {
-        // Seleccionar datos
-        (int filas, int columnas) = SeleccionarTamanoMatriz();
-        int longitudMaxima = Math.Min(filas, columnas); // Longitud máxima de cada palabra
-        int cantidadPalabras = (filas == 9) ? 5 : (filas == 12) ? 8 : 12; // Cantidad de palabras a adivinar según tamaño
-        string[] misPalabras = ElegirPalabras(cantidadPalabras, longitudMaxima);
+        // Configuración inicial del juego
+        (int filas, int columnas, string[] palabrasSeleccionadas) = ConfigurarJuego();
 
-        // Mostrar lista de palabras 
-        ListarPalabras(misPalabras);
-
-        // Crear la sopa de letras
-        char[,] miMatriz = CrearSopaDeLetras(filas, columnas, misPalabras);
-
-        // Dibujar matriz en la consola y obtener las coordenadas
-        (int x, int y) = DibujarMatriz(miMatriz);
-
-        // Jugar
-        Jugar(x, y, miMatriz);
+        // Ejecutar el juego principal
+        IniciarJuego(filas, columnas, palabrasSeleccionadas);
     }
 
     // Lista de posibles palabras
@@ -96,12 +85,52 @@ class Program
         return palabrasElegidas;
     }
 
+    // Configurar el juego
+    static (int filas, int columnas, string[] palabras) ConfigurarJuego()
+    {
+        // Selección del tamaño y palabras
+        (int filas, int columnas) = SeleccionarTamanoMatriz();
+        int longitudMaxima = Math.Min(filas, columnas);
+        int cantidadPalabras = (filas == 9) ? 5 : (filas == 12) ? 8 : 12;
+        string[] palabrasSeleccionadas = ElegirPalabras(cantidadPalabras, longitudMaxima);
+        
+        return (filas, columnas, palabrasSeleccionadas);
+    }
+
+    static void IniciarJuego(int filas, int columnas, string[] palabras)
+    {
+        // Limpiar la consola
+        Console.Clear();
+
+        // Mostrar título
+        MostrarTitulo();
+
+        // Crear la sopa de letras
+        char[,] matriz = CrearSopaDeLetras(filas, columnas, palabras);
+        
+        // Mostrar palabras e instrucciones
+        ListarPalabras(palabras);
+        
+        // Dibujar matriz y obtener coordenadas para el control del juego
+        (int x, int y) = DibujarMatriz(matriz);
+    
+        // Mostrar instrucciones
+        MostrarInstrucciones();
+        
+        // Manejar las entradas del usuario
+        ControlarJuego(x, y, matriz);
+    }
+
+    // Mostrar título
+    static void MostrarTitulo()
+    {
+        Console.WriteLine("S O P A   D E   L E T R A S");
+        Console.WriteLine(); // Línea en blanco
+    }
+
     // Muestra una lista con las palabras a encontrar
     static void ListarPalabras(string[] palabrasParaMostrar)
     {
-        Console.Clear();
-        Console.WriteLine("S O P A   D E   L E T R A S");
-        Console.WriteLine(); // Línea en blanco
         Console.WriteLine("Palabras a encontrar:");
         Console.WriteLine(); // Línea en blanco
 
@@ -111,6 +140,13 @@ class Program
         }
 
         Console.WriteLine(); // Línea en blanco
+    }
+
+    // Muestra las instrucciones para jugar
+    static void MostrarInstrucciones()
+    {
+        Console.WriteLine("[X] Seleccionar | [ENTER] Confirmar | [ESC] Salir");
+        Console.WriteLine();  // Línea en blanco
     }
 
     // Permite seleccionar el tamaño de la matriz a través de un menú con tamaños predefinidos
@@ -358,47 +394,105 @@ class Program
 
          return (x, y);
      }
-    static void Jugar(int x, int y, char[,] matriz)
+
+    static void ControlarJuego(int x, int y, char[,] matriz)
     {
-        int filas = matriz.GetLength(0);
-        int columnas = matriz.GetLength(1);
+        int filas = matriz.GetLength(0), columnas = matriz.GetLength(1);
         bool jugando = true;
+        bool seleccionando = false;
         Console.SetCursorPosition(x, y);
+        int filaActual = 0, columnaActual = 0;
+        int filaInicioSeleccion = 0, columnaInicioSeleccion = 0;
+
         do
         {
             ConsoleKeyInfo k = Console.ReadKey(true);
+
             switch(k.Key)
             {
-                case ConsoleKey.UpArrow: // Arriba
+                // ARRIBA
+                case ConsoleKey.UpArrow:
                     if (Console.CursorTop > y)
                     {
                         Console.CursorTop--;
+                        filaActual--;
                     }
                     break;
-                case ConsoleKey.DownArrow: // Abajo
+                // ABAJO
+                case ConsoleKey.DownArrow:
                     if (Console.CursorTop < y + (filas - 1))
                     {
                         Console.CursorTop++;
+                        filaActual++;
                     }
                     break;
-                case ConsoleKey.LeftArrow: // Izquierda
+                // IZQUIERDA
+                case ConsoleKey.LeftArrow:
                     if (Console.CursorLeft > x)
                     {
                         Console.CursorLeft = Console.CursorLeft - 2;
+                        columnaActual--;
                     }   
                     break;
-                case ConsoleKey.RightArrow: // Derecha
+                // DERECHA
+                case ConsoleKey.RightArrow:
                     if (Console.CursorLeft < x + (columnas - 1) * 2)
                     {
-                    Console.CursorLeft = Console.CursorLeft + 2;
+                        Console.CursorLeft = Console.CursorLeft + 2;
+                        columnaActual++;
                     }
                     break;
-                case ConsoleKey.X: // X (Seleccionar)
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write("*");
-                    Console.CursorLeft--;
+                // X (Seleccionar)
+                case ConsoleKey.X:
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.Write($"{matriz[filaActual, columnaActual]}");
+
+                    // Guardar fila y columna de inicio de selección
+                    if (!seleccionando)
+                    {
+                        filaInicioSeleccion = filaActual;
+                        columnaInicioSeleccion = columnaActual;
+                    }
+
+                    // TODO: Mientras se esté seleccionando en una dirección y sentido
+                    // moverse hacia el lado contrario anula la selección
+
+                    // TODO: Permitir seleccionar varias letras a la vez
+
+                    // Rellenar espacios entre las letras
+                    if (seleccionando)
+                    {
+                        // Seleccionando hacia la derecha
+                        if (columnaInicioSeleccion < columnaActual)
+                        {
+                            Console.CursorLeft = Console.CursorLeft - 2;
+                            Console.Write(" ");
+                            Console.CursorLeft++;
+                        }
+                        // Seleccionando hacia la izquierda
+                        else if (columnaInicioSeleccion > columnaActual)
+                        {
+                            //Console.CursorLeft = Console.CursorLeft + ;
+                            Console.Write(" ");
+                            Console.CursorLeft--;
+                        }
+                    }
+                    seleccionando = true;
+                    Console.CursorLeft = Console.CursorLeft - 1;
                     break;
-                case ConsoleKey.Enter: // Enter (Salir)
+                // ENTER (Confirmar selección)
+                case ConsoleKey.Enter:
+                    // Si estoy seleccionando
+                    if (seleccionando)
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        seleccionando = false;
+                    }
+                    break;
+                // ESC (Salir)
+                case ConsoleKey.Escape:
                     jugando = false;
                     break;
                 default:
