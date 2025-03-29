@@ -1,6 +1,6 @@
 ﻿namespace CuartaClase;
 
-// TODO: Agregar función para moverse por la matriz y seleccionar palabras con una tecla
+// UNDONE: Agregar función para moverse por la matriz y seleccionar palabras con una tecla
 // TODO: Implementar validación de palabras encontradas
 // TODO: Separar recuadro en otra función y agregarle color
 // IDEA: Agregar sistema de puntos
@@ -9,29 +9,23 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Seleccionar tamaño de la sopa de letras
+        // Seleccionar datos
         (int filas, int columnas) = SeleccionarTamanoMatriz();
-        
-        // La longitud máxima de palabra debe ser igual al tamaño máximo de la matriz
-        int longitudMaxima = Math.Min(filas, columnas);
-        
-        // Seleccionar cantidad de palabras en función del tamaño
-        int cantidadPalabras = (filas == 9) ? 5 : (filas == 12) ? 8 : 12;
-        
-        // Pasar la longitud máxima como parámetro
+        int longitudMaxima = Math.Min(filas, columnas); // Longitud máxima de cada palabra
+        int cantidadPalabras = (filas == 9) ? 5 : (filas == 12) ? 8 : 12; // Cantidad de palabras a adivinar según tamaño
         string[] misPalabras = ElegirPalabras(cantidadPalabras, longitudMaxima);
 
-        // Mostrar palabras en una lista
+        // Mostrar lista de palabras 
         ListarPalabras(misPalabras);
 
-        // Generar matriz del tamaño deseado
-        char[,] miMatriz = GenerarMatriz(filas, columnas);
+        // Crear la sopa de letras
+        char[,] miMatriz = CrearSopaDeLetras(filas, columnas, misPalabras);
 
-        // Ubicar palabras en la matriz
-        UbicarPalabrasEnMatriz(misPalabras, miMatriz);
+        // Dibujar matriz en la consola y obtener las coordenadas
+        (int x, int y) = DibujarMatriz(miMatriz);
 
-        // Dibujar matriz en la consola
-        DibujarMatriz(miMatriz);
+        // Jugar
+        Jugar(x, y, miMatriz);
     }
 
     // Lista de posibles palabras
@@ -187,29 +181,21 @@ class Program
         switch (direccion)
         {
             case 0: // Horizontal
-            {
                 fila = r.Next(0, filas); // Cualquier fila
                 columna = r.Next(0, columnas - palabra.Length + 1);
                 break;
-            }
             case 1: // Horizontal invertida
-            {
                 fila = r.Next(0, filas); // Cualquier fila
                 columna = r.Next(palabra.Length - 1, columnas);
                 break;
-            }
             case 2: // Vertical
-            {
                 fila = r.Next(0, filas - palabra.Length + 1);
                 columna = r.Next(0, columnas); // Cualquier columna
                 break;
-            }
             case 3: // Vertical invertida
-            {
                 fila = r.Next(palabra.Length - 1, filas);
                 columna = r.Next(0, columnas); // Cualquier columna
                 break;
-            }
         }
         
         return (fila, columna);
@@ -324,7 +310,14 @@ class Program
         }
     }
 
-    static void DibujarMatriz(char[,] matriz)
+    static char[,] CrearSopaDeLetras(int filas, int columnas, string[] palabras)
+    {
+        char[,] matriz = GenerarMatriz(filas, columnas);
+        UbicarPalabrasEnMatriz(palabras, matriz);
+        return matriz;
+    }
+
+    static (int x, int y) DibujarMatriz(char[,] matriz)
     {
          int filas = matriz.GetLength(0);
          int columnas = matriz.GetLength(1);
@@ -337,6 +330,10 @@ class Program
          }
          Console.WriteLine("╗");
  
+        // Guardar posición donde empieza la matriz
+        int x = 2; // Después de "║ "
+        int y = Console.CursorTop;
+
          // Mostrar matriz
          for (int i = 0; i < filas; i++)
          {
@@ -354,9 +351,59 @@ class Program
          Console.Write("╚");
          for (int i = 0; i < (columnas * 2) + 1; i++)
          {
-         Console.Write("═");
+            Console.Write("═");
          }
          Console.WriteLine("╝");
          Console.WriteLine();
+
+         return (x, y);
      }
+    static void Jugar(int x, int y, char[,] matriz)
+    {
+        int filas = matriz.GetLength(0);
+        int columnas = matriz.GetLength(1);
+        bool jugando = true;
+        Console.SetCursorPosition(x, y);
+        do
+        {
+            ConsoleKeyInfo k = Console.ReadKey(true);
+            switch(k.Key)
+            {
+                case ConsoleKey.UpArrow: // Arriba
+                    if (Console.CursorTop > y)
+                    {
+                        Console.CursorTop--;
+                    }
+                    break;
+                case ConsoleKey.DownArrow: // Abajo
+                    if (Console.CursorTop < y + (filas - 1))
+                    {
+                        Console.CursorTop++;
+                    }
+                    break;
+                case ConsoleKey.LeftArrow: // Izquierda
+                    if (Console.CursorLeft > x)
+                    {
+                        Console.CursorLeft = Console.CursorLeft - 2;
+                    }   
+                    break;
+                case ConsoleKey.RightArrow: // Derecha
+                    if (Console.CursorLeft < x + (columnas - 1) * 2)
+                    {
+                    Console.CursorLeft = Console.CursorLeft + 2;
+                    }
+                    break;
+                case ConsoleKey.X: // X (Seleccionar)
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write("*");
+                    Console.CursorLeft--;
+                    break;
+                case ConsoleKey.Enter: // Enter (Salir)
+                    jugando = false;
+                    break;
+                default:
+                    break;
+            }
+        } while (jugando);
+    }
 }
