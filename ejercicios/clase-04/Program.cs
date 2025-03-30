@@ -1,17 +1,20 @@
-﻿namespace CuartaClase;
+﻿using System.Collections.Generic;
+
+namespace CuartaClase;
 
 // UNDONE: Agregar función para moverse por la matriz y seleccionar palabras con una tecla
-// TODO: Implementar validación de palabras encontradas
+// UNDONE: Implementar validación de palabras encontradas
 // FIXME: Limitar número de intentos para ubicar las palabras para evitar posible stack overflow 
 // TODO: Refactorizar los valores hardcodeados (espacio entre letras, teclas, etc.)
 // TODO: Separar recuadro en otra función y agregarle color
 
 class Program
+
 {
     static void Main(string[] args)
     {
         // Configuración inicial del juego
-        (int filas, int columnas, string[] palabrasSeleccionadas) = ConfigurarJuego();
+        (int filas, int columnas, Dictionary<string, bool> palabrasSeleccionadas) = ConfigurarJuego();
 
         // Ejecutar el juego principal
         IniciarJuego(filas, columnas, palabrasSeleccionadas);
@@ -56,7 +59,7 @@ class Program
         };
 
     // Elige un subconjunto aleatorio de palabras con un límite de longitud
-    static string[] ElegirPalabras(int cantidadDeseada, int longitudMaxima)
+    static Dictionary<string, bool> ElegirPalabras(int cantidadDeseada, int longitudMaxima)
     {
         // Filtrar palabras que cumplen con la longitud máxima
         List<string> palabrasValidas = new List<string>();
@@ -72,13 +75,14 @@ class Program
         int cantidadFinal = Math.Min(cantidadDeseada, palabrasValidas.Count);
         
         // Elegir palabras aleatoriamente
-        string[] palabrasElegidas = new string[cantidadFinal];
+        Dictionary<string, bool> palabrasElegidas = new Dictionary<string, bool>();
         Random r = new Random();
         
         for (int i = 0; i < cantidadFinal; i++)
         {
             int indice = r.Next(0, palabrasValidas.Count);
-            palabrasElegidas[i] = palabrasValidas[indice];
+            // Agregar al diccionario con valor inicial false (no encontrada)
+            palabrasElegidas.Add(palabrasValidas[indice], false);
             palabrasValidas.RemoveAt(indice);
         }
         
@@ -86,18 +90,18 @@ class Program
     }
 
     // Configurar el juego
-    static (int filas, int columnas, string[] palabras) ConfigurarJuego()
+    static (int filas, int columnas, Dictionary<string, bool> palabras) ConfigurarJuego()
     {
         // Selección del tamaño y palabras
         (int filas, int columnas) = SeleccionarTamanoMatriz();
         int longitudMaxima = Math.Min(filas, columnas);
         int cantidadPalabras = (filas == 9) ? 5 : (filas == 12) ? 8 : 12;
-        string[] palabrasSeleccionadas = ElegirPalabras(cantidadPalabras, longitudMaxima);
+        Dictionary<string, bool> palabrasSeleccionadas = ElegirPalabras(cantidadPalabras, longitudMaxima);
         
         return (filas, columnas, palabrasSeleccionadas);
     }
 
-    static void IniciarJuego(int filas, int columnas, string[] palabras)
+    static void IniciarJuego(int filas, int columnas, Dictionary<string, bool> palabras)
     {
         // Limpiar la consola
         Console.Clear();
@@ -124,19 +128,22 @@ class Program
     // Mostrar título
     static void MostrarTitulo()
     {
-        Console.WriteLine("S O P A   D E   L E T R A S");
+        
+        Console.WriteLine("╔═╗╔═╗╔═╗╔═╗  ╔╦╗╔═╗  ╦  ╔═╗╔╦╗╦═╗╔═╗╔═╗");
+        Console.WriteLine("╚═╗║ ║╠═╝╠═╣   ║║║╣   ║  ║╣  ║ ╠╦╝╠═╣╚═╗");
+        Console.WriteLine("╚═╝╚═╝╩  ╩ ╩  ═╩╝╚═╝  ╩═╝╚═╝ ╩ ╩╚═╩ ╩╚═╝");
         Console.WriteLine(); // Línea en blanco
     }
 
     // Muestra una lista con las palabras a encontrar
-    static void ListarPalabras(string[] palabrasParaMostrar)
+    static void ListarPalabras(Dictionary<string, bool> palabrasParaMostrar)
     {
         Console.WriteLine("Palabras a encontrar:");
         Console.WriteLine(); // Línea en blanco
 
-        for (int i = 0; i < palabrasParaMostrar.Length; i++)
+        foreach (var palabra in palabrasParaMostrar)
         {
-            Console.WriteLine($"{i+1}. {palabrasParaMostrar[i]}");
+            Console.WriteLine($"- {palabra.Key}");
         }
 
         Console.WriteLine(); // Línea en blanco
@@ -145,7 +152,7 @@ class Program
     // Muestra las instrucciones para jugar
     static void MostrarInstrucciones()
     {
-        Console.WriteLine("[X] Seleccionar | [ENTER] Confirmar | [ESC] Salir");
+        Console.WriteLine("[X] Seleccionar | [ESC] Salir");
         Console.WriteLine();  // Línea en blanco
     }
 
@@ -153,8 +160,8 @@ class Program
     static (int filas, int columnas) SeleccionarTamanoMatriz()
     {
         Console.Clear();
-        Console.WriteLine("S O P A   D E   L E T R A S");
-        Console.WriteLine(); // Línea en blanco
+        MostrarTitulo();
+        
         Console.WriteLine("Seleccione el tamaño de la sopa de letras:");
         Console.WriteLine(); // Línea en blanco
         Console.WriteLine("1. Pequeña - 9x9 (5 palabras)");
@@ -346,63 +353,66 @@ class Program
         }
     }
 
-    static char[,] CrearSopaDeLetras(int filas, int columnas, string[] palabras)
+    static char[,] CrearSopaDeLetras(int filas, int columnas, Dictionary<string, bool> palabras)
     {
         char[,] matriz = GenerarMatriz(filas, columnas);
-        UbicarPalabrasEnMatriz(palabras, matriz);
+        UbicarPalabrasEnMatriz(palabras.Keys.ToArray(), matriz);
         return matriz;
     }
 
     static (int x, int y) DibujarMatriz(char[,] matriz)
     {
-         int filas = matriz.GetLength(0);
-         int columnas = matriz.GetLength(1);
+        int filas = matriz.GetLength(0);
+        int columnas = matriz.GetLength(1);
  
-         // Línea superior
-         Console.Write("╔");
-         for (int i = 0; i < (columnas * 2) + 1; i++)
-         {
-         Console.Write("═");
-         }
-         Console.WriteLine("╗");
+        // Línea superior
+        Console.Write("╔");
+        for (int i = 0; i < (columnas * 2) + 1; i++)
+        {
+        Console.Write("═");
+        }
+        Console.WriteLine("╗");
  
         // Guardar posición donde empieza la matriz
         int x = 2; // Después de "║ "
         int y = Console.CursorTop;
 
-         // Mostrar matriz
-         for (int i = 0; i < filas; i++)
-         {
-             Console.Write("║ "); // Línea izquierda
-             for (int j = 0; j < columnas; j++)
-             {
+        // Mostrar matriz
+        for (int i = 0; i < filas; i++)
+        {
+            Console.Write("║ "); // Línea izquierda
+            for (int j = 0; j < columnas; j++)
+            {
 
-                 Console.Write($"{matriz[i, j]} ");
-             }
-             Console.Write("║"); // Línea derecha
-             Console.WriteLine();
-         }
+                Console.Write($"{matriz[i, j]} ");
+            }
+            Console.Write("║"); // Línea derecha
+            Console.WriteLine();
+        }
  
          // Línea inferior
-         Console.Write("╚");
-         for (int i = 0; i < (columnas * 2) + 1; i++)
-         {
-            Console.Write("═");
-         }
-         Console.WriteLine("╝");
-         Console.WriteLine();
+        Console.Write("╚");
+        for (int i = 0; i < (columnas * 2) + 1; i++)
+        {
+           Console.Write("═");
+        }
+        Console.WriteLine("╝");
+        Console.WriteLine();
 
-         return (x, y);
-     }
+        // Devolver posición donde empieza la matriz
+        return (x, y);
+    }
 
     static void ControlarJuego(int x, int y, char[,] matriz)
     {
         int filas = matriz.GetLength(0), columnas = matriz.GetLength(1);
-        bool jugando = true;
+        bool jugando = true; 
         bool seleccionando = false;
-        Console.SetCursorPosition(x, y);
         int filaActual = 0, columnaActual = 0;
-        int filaInicioSeleccion = 0, columnaInicioSeleccion = 0;
+        //int filaInicioSeleccion = 0, columnaInicioSeleccion = 0;
+
+        // Ubicar el cursor en la matriz
+        Console.SetCursorPosition(x, y);
 
         do
         {
@@ -412,88 +422,89 @@ class Program
             {
                 // ARRIBA
                 case ConsoleKey.UpArrow:
+                    // Si no estoy en el borde, avanzar hacia arriba
                     if (Console.CursorTop > y)
                     {
                         Console.CursorTop--;
                         filaActual--;
                     }
+                    // Si estoy seleccionando, pintar los espacios
+                    if (seleccionando)
+                    {
+                        Console.Write($"{matriz[filaActual, columnaActual]}");
+                        Console.CursorLeft--;
+                    }
                     break;
+
                 // ABAJO
                 case ConsoleKey.DownArrow:
+                    // Si no estoy en el borde, avanzar hacia abajo
                     if (Console.CursorTop < y + (filas - 1))
                     {
                         Console.CursorTop++;
                         filaActual++;
                     }
+                    // Si estoy seleccionando, pintar los espacios
+                    if (seleccionando)
+                    {
+                        Console.Write($"{matriz[filaActual, columnaActual]}");
+                        Console.CursorLeft--;
+                    }
                     break;
+
                 // IZQUIERDA
                 case ConsoleKey.LeftArrow:
+                    // Si no estoy en el borde, avanzar hacia la izquierda
                     if (Console.CursorLeft > x)
                     {
                         Console.CursorLeft = Console.CursorLeft - 2;
                         columnaActual--;
-                    }   
+                    }
+                    // Si estoy seleccionando, pintar los espacios
+                    if (seleccionando)
+                    {
+                        Console.CursorLeft = Console.CursorLeft + 1;
+                        Console.Write(" ");
+                        Console.CursorLeft = Console.CursorLeft - 2;
+                        Console.Write($"{matriz[filaActual, columnaActual]}");
+                        Console.CursorLeft = Console.CursorLeft - 1;
+                    }
                     break;
+
                 // DERECHA
                 case ConsoleKey.RightArrow:
+                    // Si no estoy en el borde, avanzar hacia la derecha
                     if (Console.CursorLeft < x + (columnas - 1) * 2)
                     {
                         Console.CursorLeft = Console.CursorLeft + 2;
                         columnaActual++;
                     }
+                    // Si estoy seleccionando, pintar los espacios
+                    if (seleccionando)
+                    {
+                        Console.CursorLeft = Console.CursorLeft - 1;
+                        Console.Write(" ");
+                        Console.Write($"{matriz[filaActual, columnaActual]}");
+                        Console.CursorLeft--;
+                    }
                     break;
-                // X (Seleccionar)
+
+                // X (Seleccionar/Deseleccionar)
                 case ConsoleKey.X:
+                    // Resaltar espacios seleccionados
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.BackgroundColor = ConsoleColor.Gray;
                     Console.Write($"{matriz[filaActual, columnaActual]}");
-
-                    // Guardar fila y columna de inicio de selección
-                    if (!seleccionando)
-                    {
-                        filaInicioSeleccion = filaActual;
-                        columnaInicioSeleccion = columnaActual;
-                    }
-
-                    // TODO: Mientras se esté seleccionando en una dirección y sentido
-                    // moverse hacia el lado contrario anula la selección
-
-                    // TODO: Permitir seleccionar varias letras a la vez
-
-                    // Rellenar espacios entre las letras
-                    if (seleccionando)
-                    {
-                        // Seleccionando hacia la derecha
-                        if (columnaInicioSeleccion < columnaActual)
-                        {
-                            Console.CursorLeft = Console.CursorLeft - 2;
-                            Console.Write(" ");
-                            Console.CursorLeft++;
-                        }
-                        // Seleccionando hacia la izquierda
-                        else if (columnaInicioSeleccion > columnaActual)
-                        {
-                            //Console.CursorLeft = Console.CursorLeft + ;
-                            Console.Write(" ");
-                            Console.CursorLeft--;
-                        }
-                    }
-                    seleccionando = true;
                     Console.CursorLeft = Console.CursorLeft - 1;
+
+                    // Seleccionar o dejar de seleccionar
+                    seleccionando = (!seleccionando) ? true : false;
                     break;
-                // ENTER (Confirmar selección)
-                case ConsoleKey.Enter:
-                    // Si estoy seleccionando
-                    if (seleccionando)
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;
-                        Console.BackgroundColor = ConsoleColor.Black;
-                        seleccionando = false;
-                    }
-                    break;
+
                 // ESC (Salir)
                 case ConsoleKey.Escape:
                     jugando = false;
+                    Console.Clear();
                     break;
                 default:
                     break;
