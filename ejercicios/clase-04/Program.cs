@@ -4,6 +4,7 @@ namespace CuartaClase;
 
 // UNDONE: Agregar función para moverse por la matriz y seleccionar palabras con una tecla
 // UNDONE: Implementar validación de palabras encontradas
+// FIXME: Manejar selección permanente vs selección temporal para evitar despintar espacios de palabras encontradas al deseleccionar
 // FIXME: Limitar número de intentos para ubicar las palabras para evitar posible stack overflow 
 // TODO: Refactorizar los valores hardcodeados (espacio entre letras, teclas, etc.)
 // TODO: Separar recuadro en otra función y agregarle color
@@ -409,7 +410,8 @@ class Program
         bool jugando = true; 
         bool seleccionando = false;
         int filaActual = 0, columnaActual = 0;
-        //int filaInicioSeleccion = 0, columnaInicioSeleccion = 0;
+        int filaInicioSeleccion = 0, columnaInicioSeleccion = 0;
+        int direccionSeleccion = -1, sentidoSeleccion = -1;
 
         // Ubicar el cursor en la matriz
         Console.SetCursorPosition(x, y);
@@ -420,6 +422,7 @@ class Program
 
             switch(k.Key)
             {
+                /*
                 // ARRIBA
                 case ConsoleKey.UpArrow:
                     // Si no estoy en el borde, avanzar hacia arriba
@@ -428,14 +431,22 @@ class Program
                         Console.CursorTop--;
                         filaActual--;
                     }
+
                     // Si estoy seleccionando, pintar los espacios
                     if (seleccionando)
                     {
+                        // Determinar dirección de la selección
+                        if (direccionSeleccion == -1)
+                        {
+                            direccionSeleccion = 3;
+                        }
+                        // Sobreescribir caracter para actualizar el color
                         Console.Write($"{matriz[filaActual, columnaActual]}");
                         Console.CursorLeft--;
                     }
                     break;
-
+                    */
+                /*
                 // ABAJO
                 case ConsoleKey.DownArrow:
                     // Si no estoy en el borde, avanzar hacia abajo
@@ -444,59 +455,210 @@ class Program
                         Console.CursorTop++;
                         filaActual++;
                     }
-                    // Si estoy seleccionando, pintar los espacios
+
+                    // Si estoy seleccionando, pintar las celdas
                     if (seleccionando)
                     {
-                        Console.Write($"{matriz[filaActual, columnaActual]}");
+                        // Determinar dirección de la selección
+                        if (direccionSeleccion == -1)
+                        {
+                            direccionSeleccion = ;
+                        }
+                        // Sobreescribir caracter para actualizar el color
+                        Console.Write($"{matriz[filaActual, columnaActual]}"); 
                         Console.CursorLeft--;
                     }
                     break;
-
+                */
                 // IZQUIERDA
                 case ConsoleKey.LeftArrow:
-                    // Si no estoy en el borde, avanzar hacia la izquierda
-                    if (Console.CursorLeft > x)
+                    // Si estoy en el borde, no hacer nada
+                    if (Console.CursorLeft <= x) break;
+
+                    // Si no estoy seleccionando
+                    if (!seleccionando)
                     {
-                        Console.CursorLeft = Console.CursorLeft - 2;
+                        // Retroceder
                         columnaActual--;
-                    }
-                    // Si estoy seleccionando, pintar los espacios
-                    if (seleccionando)
-                    {
-                        Console.CursorLeft = Console.CursorLeft + 1;
-                        Console.Write(" ");
                         Console.CursorLeft = Console.CursorLeft - 2;
-                        Console.Write($"{matriz[filaActual, columnaActual]}");
-                        Console.CursorLeft = Console.CursorLeft - 1;
+                    }
+                    // Si estoy seleccionando
+                    else
+                    {
+                        // Si la dirección de la selección es vertical, no hacer nada
+                        if (direccionSeleccion == 1) break;
+
+                         // Si la dirección de la selección no está establecida
+                        if (direccionSeleccion == -1)
+                        {
+                            columnaActual--;
+                            // Retroceder
+                            Console.CursorLeft--;
+                            // Insertar el espacio
+                            Console.Write(" "); Console.CursorLeft--;
+                            // Retroceder
+                            Console.CursorLeft--;
+                            // Insertar el caracter
+                            Console.Write($"{matriz[filaActual, columnaActual]}"); Console.CursorLeft--;
+                            // Establecer dirección horizontal
+                            direccionSeleccion = 0;
+                            // Establecer sentido comparando pos. actual con pos. inicial de la selección
+                            sentidoSeleccion = (columnaActual > columnaInicioSeleccion) ? 0 : 1; 
+
+                        }
+                        // Dirección horizontal y sentido no establecido (vuelta a la posición de inicio)
+                        else if (sentidoSeleccion == -1)
+                        {
+                            // Establecer colores de selección
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.Gray;
+                            // Actualizar colores
+                            Console.Write($"{matriz[filaActual, columnaActual]}"); Console.CursorLeft--;
+                            // Retroceder una columna
+                            columnaActual--;
+                            // Retroceder un espacio
+                            Console.CursorLeft--;
+                            // Insertar el espacio
+                            Console.Write(" "); Console.CursorLeft--;
+                            // Retroceder
+                            Console.CursorLeft--;
+                            // Actualizar colores
+                            Console.Write($"{matriz[filaActual, columnaActual]}"); Console.CursorLeft--;
+                            // Cambiar sentido de la selección
+                            sentidoSeleccion = 1;
+                        }
+                        // Dirección horizontal y sentido normal - Deselección
+                        else if (sentidoSeleccion == 0)
+                        {
+                            // Establecer colores originales
+                            Console.ResetColor();
+                            // Actualizar colores
+                            Console.Write($"{matriz[filaActual, columnaActual]}"); Console.CursorLeft--;
+                            // Retroceder una columna
+                            columnaActual--;
+                            // Retroceder un espacio
+                            Console.CursorLeft--;
+                            // Actualizar colores
+                            Console.Write(" "); Console.CursorLeft--;
+                            // Retroceder un espacio
+                            Console.CursorLeft--;
+                            // Verificar si no cambió el sentido al deseleccionar
+                            sentidoSeleccion = (columnaActual == columnaInicioSeleccion) ? -1 : 0; 
+                        }
+                        // Dirección horizontal y sentido contrario - Selección
+                        else if (sentidoSeleccion == 1)
+                        {
+                            columnaActual--;
+                            // Establecer colores de selección
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.Gray;
+                            // Retroceder
+                            Console.CursorLeft--;
+                            // Insertar el espacio
+                            Console.Write(" "); Console.CursorLeft--;
+                            // Retroceder
+                            Console.CursorLeft--;
+                            // Insertar el caracter
+                            Console.Write($"{matriz[filaActual, columnaActual]}"); Console.CursorLeft--;
+
+                        }
                     }
                     break;
 
                 // DERECHA
                 case ConsoleKey.RightArrow:
-                    // Si no estoy en el borde, avanzar hacia la derecha
-                    if (Console.CursorLeft < x + (columnas - 1) * 2)
+                    // Si estoy en el borde, no hacer nada
+                    if (Console.CursorLeft >= x + (columnas - 1) * 2) break;
+
+                    // Si no estoy seleccionando
+                    if (!seleccionando)
                     {
-                        Console.CursorLeft = Console.CursorLeft + 2;
+                        // Avanzar
                         columnaActual++;
+                        Console.CursorLeft = Console.CursorLeft + 2;
                     }
-                    // Si estoy seleccionando, pintar los espacios
-                    if (seleccionando)
+                    // Si estoy seleccionando
+                    else
                     {
-                        Console.CursorLeft = Console.CursorLeft - 1;
-                        Console.Write(" ");
-                        Console.Write($"{matriz[filaActual, columnaActual]}");
-                        Console.CursorLeft--;
+                        // Si la dirección de la selección es vertical, no hacer nada
+                        if (direccionSeleccion == 1) break;
+
+                        // Si la dirección de la selección no está establecida
+                        if (direccionSeleccion == -1)
+                        {
+                            // Establecer colores de selección
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.Gray;
+                            // Actualizar colores
+                            Console.Write($"{matriz[filaActual, columnaActual]}"); Console.CursorLeft--;
+                            // Avanzar una columna
+                            columnaActual++;
+                            // Avanzar un espacio
+                            Console.CursorLeft++;
+                            // Actualizar colores
+                            Console.Write(" ");
+                            Console.Write($"{matriz[filaActual, columnaActual]}"); Console.CursorLeft--;
+                            // Establecer dirección horizontal
+                            direccionSeleccion = 0;
+                            // Establecer sentido comparando pos. actual con pos. inicial de la selección
+                            sentidoSeleccion = (columnaActual > columnaInicioSeleccion) ? 0 : 1; 
+                        }
+                        // Dirección horizontal y sentido no establecido (vuelta a la posición de inicio)
+                        else if (sentidoSeleccion == -1)
+                        {
+                            // Establecer colores de selección
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.Gray;
+                            // Actualizar colores
+                            Console.Write($"{matriz[filaActual, columnaActual]}"); Console.CursorLeft--;
+                            // Avanzar
+                            columnaActual++;
+                            Console.CursorLeft++;
+                            Console.Write(" ");
+                            Console.Write($"{matriz[filaActual, columnaActual]}");
+                            Console.CursorLeft--;
+                            // Cambiar sentido de la selección
+                            sentidoSeleccion = 0;
+                        }
+                        // Dirección horizontal y sentido normal - Selección
+                        else if (sentidoSeleccion == 0)
+                        {
+                            // Establecer colores de selección
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.Gray;
+                            // Avanzar
+                            columnaActual++;
+                            Console.CursorLeft++;
+                            Console.Write(" ");
+                            Console.Write($"{matriz[filaActual, columnaActual]}");
+                            Console.CursorLeft--;
+                        }
+                        // Dirección horizontal y sentido contrario - Deselección
+                        else if (sentidoSeleccion == 1)
+                        {
+                            // Establecer colores originales
+                            Console.ResetColor();
+                            // Despinto el caracter actual
+                            Console.Write($"{matriz[filaActual, columnaActual]}");
+                            Console.Write(" ");
+                            columnaActual++;
+                            // Verificar si no cambió el sentido al deseleccionar
+                            sentidoSeleccion = (columnaActual == columnaInicioSeleccion) ? -1 : 1; 
+                        }
                     }
                     break;
 
                 // X (Seleccionar/Deseleccionar)
                 case ConsoleKey.X:
-                    // Resaltar espacios seleccionados
+                    // Establecer colores de selección
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.BackgroundColor = ConsoleColor.Gray;
-                    Console.Write($"{matriz[filaActual, columnaActual]}");
-                    Console.CursorLeft = Console.CursorLeft - 1;
-
+                    // Actualizar colores
+                    Console.Write($"{matriz[filaActual, columnaActual]}"); Console.CursorLeft--;
+                    // Guardar posición de inicio de selección
+                    filaInicioSeleccion = filaActual; columnaInicioSeleccion = columnaActual;
+                    // Reiniciar dirección de selección
+                    direccionSeleccion = -1;
                     // Seleccionar o dejar de seleccionar
                     seleccionando = (!seleccionando) ? true : false;
                     break;
@@ -506,6 +668,7 @@ class Program
                     jugando = false;
                     Console.Clear();
                     break;
+                
                 default:
                     break;
             }
