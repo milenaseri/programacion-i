@@ -146,22 +146,63 @@ class Program
     // Mostrar título
     static void MostrarTitulo()
     {
-        
-        Console.WriteLine("╔═╗╔═╗╔═╗╔═╗  ╔╦╗╔═╗  ╦  ╔═╗╔╦╗╦═╗╔═╗╔═╗");
-        Console.WriteLine("╚═╗║ ║╠═╝╠═╣   ║║║╣   ║  ║╣  ║ ╠╦╝╠═╣╚═╗");
-        Console.WriteLine("╚═╝╚═╝╩  ╩ ╩  ═╩╝╚═╝  ╩═╝╚═╝ ╩ ╩╚═╩ ╩╚═╝");
+        /*
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine(@" __                         _      ");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(@"/ _\ ___  _ __   __ _    __| | ___ ");
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.WriteLine(@"\ \ / _ \| '_ \ / _` |  / _` |/ _ \");
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine(@"_\ \ (_) | |_) | (_| | | (_| |  __/");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine(@"\__/\___/| .__/ \__,_|  \__,_|\___|");
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.WriteLine(@"         |_|                       ");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine(@" _         _                       ");
+        Console.ForegroundColor = ConsoleColor.DarkCyan;
+        Console.WriteLine(@"| |    ___| |_ _ __ __ _ ___       ");
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine(@"| |   / _ \ __| '__/ _` / __|      ");
+        Console.ForegroundColor = ConsoleColor.DarkBlue;
+        Console.WriteLine(@"| |__|  __/ |_| | | (_| \__ \      ");
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine(@"\____/\___|\__|_|  \__,_|___/      ");
+        */
+
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine(@" __                         _      ");
+        Console.WriteLine(@"/ _\ ___  _ __   __ _    __| | ___ ");
+        Console.WriteLine(@"\ \ / _ \| '_ \ / _` |  / _` |/ _ \");
+        Console.WriteLine(@"_\ \ (_) | |_) | (_| | | (_| |  __/");
+        Console.WriteLine(@"\__/\___/| .__/ \__,_|  \__,_|\___|");
+        Console.WriteLine(@"         |_|                       ");
+        Console.WriteLine(@" _         _                       ");
+        Console.WriteLine(@"| |    ___| |_ _ __ __ _ ___       ");
+        Console.WriteLine(@"| |   / _ \ __| '__/ _` / __|      ");
+        Console.WriteLine(@"| |__|  __/ |_| | | (_| \__ \      ");
+        Console.WriteLine(@"\____/\___|\__|_|  \__,_|___/      ");
+
+        // Reiniciar colores
+        Console.ResetColor();
+
+        Console.WriteLine(); // Línea en blanco
         Console.WriteLine(); // Línea en blanco
     }
 
     // Muestra una lista con las palabras a encontrar
     static void ListarPalabras(Dictionary<string, bool> palabrasParaMostrar)
     {
-        Console.WriteLine("Palabras a encontrar:");
+        Console.WriteLine("Encuentre las siguientes palabras:");
         Console.WriteLine(); // Línea en blanco
 
         foreach (var palabra in palabrasParaMostrar)
         {
-            Console.WriteLine($"- {palabra.Key}");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write(" ✻ ");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine($"{palabra.Key}");
         }
 
         Console.WriteLine(); // Línea en blanco
@@ -170,7 +211,16 @@ class Program
     // Muestra las instrucciones para jugar
     static void MostrarInstrucciones()
     {
-        Console.WriteLine("[X] Seleccionar | [ESC] Salir");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("[X] ");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.Write("Seleccionar ");
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.Write("| ");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("[ESC] ");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("Salir");
         Console.WriteLine();  // Línea en blanco
     }
 
@@ -179,12 +229,22 @@ class Program
     {
         Console.Clear();
         MostrarTitulo();
-        
+
+        Console.ForegroundColor = ConsoleColor.Gray;
         Console.WriteLine("Seleccione el tamaño de la sopa de letras:");
         Console.WriteLine(); // Línea en blanco
-        Console.WriteLine("1. Pequeña - 9x9 (5 palabras)");
-        Console.WriteLine("2. Mediana - 12x12 (8 palabras)");
-        Console.WriteLine("3. Grande - 15x15 (12 palabras)");
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.Write("1. ");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("Pequeña ·  9x9  · 5 palabras");
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.Write("2. ");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("Mediana · 12x12 · 8 palabras");
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.Write("3. ");
+        Console.ForegroundColor = ConsoleColor.Gray;
+        Console.WriteLine("Grande  · 15x15 · 12 palabras");
         Console.WriteLine(); // Línea en blanco
 
         int opcion;
@@ -192,14 +252,21 @@ class Program
 
         do
         {
-            Console.Write("Ingrese su opción (1-3): ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("> ");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            //Console.Write("Ingrese su opción (1-3)");
+            //Console.CursorLeft = Console.CursorLeft -23;
+            Console.ForegroundColor = ConsoleColor.White;
             esValido = int.TryParse(Console.ReadLine(), out opcion); // Intentar convertir a entero y guardar la opción
-
+            
             // Opción no válida o fuera de rango
             if (!esValido || opcion < 1 || opcion > 3)
             {
-                Console.WriteLine(); // Línea en blanco
-                Console.WriteLine("Opcion no válida. Intente nuevamente.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("  ⎿ ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Opción no válida · Intente nuevamente:");
                 Console.WriteLine(); // Línea en blanco
                 esValido = false;
             }
@@ -398,12 +465,12 @@ class Program
         int columnas = matriz.GetLength(1);
  
         // Línea superior
-        Console.Write("╔");
+        Console.Write("╭");
         for (int i = 0; i < (columnas * 2) + 1; i++)
         {
-        Console.Write("═");
+        Console.Write("─");
         }
-        Console.WriteLine("╗");
+        Console.WriteLine("╮");
  
         // Guardar posición donde empieza la matriz
         int x = 2; // Después de "║ "
@@ -412,23 +479,23 @@ class Program
         // Mostrar matriz
         for (int i = 0; i < filas; i++)
         {
-            Console.Write("║ "); // Línea izquierda
+            Console.Write("│ "); // Línea izquierda
             for (int j = 0; j < columnas; j++)
             {
 
                 Console.Write($"{matriz[i, j]} ");
             }
-            Console.Write("║"); // Línea derecha
+            Console.Write("│"); // Línea derecha
             Console.WriteLine();
         }
  
          // Línea inferior
-        Console.Write("╚");
+        Console.Write("╰");
         for (int i = 0; i < (columnas * 2) + 1; i++)
         {
-           Console.Write("═");
+           Console.Write("─");
         }
-        Console.WriteLine("╝");
+        Console.WriteLine("╯");
         Console.WriteLine();
 
         // Devolver posición donde empieza la matriz
