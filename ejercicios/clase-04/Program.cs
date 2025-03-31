@@ -358,14 +358,28 @@ class Program
             posicionValida = false;
         }
 
-        // Llenar espacios en blanco con letras aleatorias
+        // Llenar espacios vacíos con letras aleatorias
+        LlenarEspaciosVacios(matriz);
+    }
+
+    // Llena los espacios vacíos con letras aleatorias según su frecuencia
+    static void LlenarEspaciosVacios(char[,] matriz)
+    {
+        Random r = new Random();
+        int filas = matriz.GetLength(0);
+        int columnas = matriz.GetLength(1);
+        
+        // Llenar espacios en blanco con letras aleatorias en base a la frecuencia de aparición de letras en español
+        // Fuente: https://es.wikipedia.org/wiki/Frecuencia_de_aparici%C3%B3n_de_letras
+        string letrasConFrecuencia = "AAAAAAAAAAAAEEEEEEEEEEEEEEIIIIIIOOOOOOOOORRRRRRRSSSSSSSSNNNNNNNTTTTTTDDDDDDLLLLLMMMPPPPCCCCCUUUUBBBBVVVQQZZZYGGGFFFJHÑXXKKW";
+
         for (int i = 0; i < filas; i++)
         {
             for (int j = 0; j < columnas; j++)
             {
                 if (matriz[i, j] == ' ')
                 {
-                    matriz[i, j] = (char)r.Next(65,91);
+                    matriz[i, j] = letrasConFrecuencia[r.Next(0, letrasConFrecuencia.Length)];
                 }
             }
         }
